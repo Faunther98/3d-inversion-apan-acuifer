@@ -66,7 +66,7 @@ $T_t(m) \approx T_t(m_0) + A_T(m_0) (m - m_0)$
 </p>
 
 #### d) Evaluación y convergencia
-Dada la naturaleza de la función objetivo y las restricciones lineales impuestas, para resolver el problema de minimización planteado en la función objetivo, Gmlayers emplea el algoritmo de programación cuadrática de [48]. 
+Dada la naturaleza de la función objetivo y las restricciones lineales impuestas, para resolver el problema de minimización planteado en la función objetivo, Gmlayers emplea el algoritmo de programación cuadrática de (Gill et al., 1986). 
 
 El proceso iterativo de ajuste continúa hasta que se alcanza la convergencia, es decir, hasta llegar a un punto estacionario o hasta que las diferencias entre los datos observados y los modelados se encuentren dentro de un rango aceptable. Esta convergencia se evalúa mediante los siguientes criterios:
 
