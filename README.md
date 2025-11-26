@@ -114,6 +114,11 @@ pip install -r requirements.txt
 
 Un archivo de texto `gfield.txt` con columnas para las coordenadas UTM (Norte, Este en km), la elevación (Z en km), el valor de la anomalía (g en mgal) y su incertidumbre (sg en mgal).
 
+```text
+----------------GFIELD.txt----------------
+Gravity data set of sintetic model (1000 measurements)
+North (km) East(km) Z(km) g(mgal) sg(mgal)
+
 
 #### Datos Magnéticos: 
 
