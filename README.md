@@ -135,7 +135,7 @@ North (km) East(km) Z(km) B(nT) sB(nT)
 
 #### Modelo Geológico Conceptual: 
 
-Una definición clara de las capas geológicas que usarás en el modelo, ordenadas de la más superficial a la más profunda. Para cada capa, necesitas una estimación inicial de sus propiedades (densidad y magnetización)
+Una definición clara de las capas geológicas que usarás en el modelo, ordenadas de la más superficial a la más profunda. Para cada capa, necesitas una estimación inicial de sus propiedades (`densidad` y `magnetización`)
 
 <div align="center">
   <img src="/images/layers.png" alt="topografiadiscreta" width="300">
@@ -144,20 +144,20 @@ Una definición clara de las capas geológicas que usarás en el modelo, ordenad
 
 #### Geología Superficial y Topografía: 
 
-Un mapa geológico del área para saber qué unidad geológica aflora en cada punto y un modelo digital de elevación para conocer la topografía.
+Un `mapa geológico del área` para saber qué unidad geológica aflora en cada punto y un `modelo digital de elevación` para conocer la topografía.
 
 ### Pasos para realizar la inversión usando el algoritmo gmlayers
 
 #### Discretizar el modelo y la geología
 
-El primer paso es crear una rejilla regular sobre tu area de estudio de n filas por m columnas, tú decides el tamaño de los prismas en km y la cantidad. Para hacerlo te puedes apoyar de software como Surfer, solo recuerda, que al final necesitaras saber las coordenadas UTM del centro de cada prisma, guarda un archivo `prismas.txt` con el número de prisma y su coordenada al centro del mismo.
+El primer paso es crear una rejilla regular sobre tu area de estudio de $n$ filas por $m$ columnas, tú decides el tamaño de los prismas en km y la cantidad. Para hacerlo te puedes apoyar de software como Surfer, solo recuerda, que al final necesitaras saber las coordenadas UTM del centro de cada prisma, guarda un archivo `prismas.txt` con el número de prisma y su coordenada al centro del mismo.
 
 <div align="center">
   <img src="/images/prismas.png" alt="topografiadiscreta" width="400">
 </div>
 
 
-El segundo paso consiste en asignar la topografía promedio del área correspondiente a cada prisma. Puedes hacer una interpolación del tipo nearest neighbor, de manera que al final tengas un archivo `topografia.txt` que contenga las columnas: número de prisma y valor de la elevación.
+El segundo paso consiste en asignar la topografía promedio del área correspondiente a cada prisma. Puedes hacer una interpolación del tipo $nearest$ $neighbor$, de manera que al final tengas un archivo `topografia.txt` que contenga las columnas: `número de prisma` y `valor de la elevación`.
 
 <div align="center">
   <img src="/images/topografia.png" alt="topografiadiscreta" width="500">
@@ -168,7 +168,7 @@ El siguiente paso consiste en asignar a cada prisma una unidad geológica aflora
 
 #### Generar los archivos de restricciones de capas
 
-ejecuta `program1.exe` este solicitará una serie de parámetros geométricos de la base de la capa; el número de la capa; el número de prismas, los valores $x_{\text{min}}$, $x_0$ y $x_{\text{max}}$ de la base de la capa i.e., el caso donde aflora cualquier unidad por debajo de la capa que se está trabajando), los cuales pueden ser constantes o variables. Si el valor se toma de la topografía, se digita 10,000;  la desviación estándar ($sx0$); los espesores mínimo y máximo ($Esp_{{min}}$, $Esp_{{max}}$) de la base; y por último, se solicita el archivo que contenga la información topográfica-batimétrica i.e., el número de prisma y su elevación correspondiente `topografia.txt`. Este programa se ejecuta una vez por capa
+Ejecuta `program1.exe` este solicitará una serie de parámetros geométricos de la base de la capa; el número de la capa; el número de prismas, los valores $x_{\text{min}}$, $x_0$ y $x_{\text{max}}$ de la base de la capa i.e., el caso donde aflora cualquier unidad por debajo de la capa que se está trabajando), los cuales pueden ser constantes o variables. Si el valor se toma de la topografía, se digita 10,000;  la desviación estándar ($sx0$); los espesores mínimo y máximo ($Esp_{{min}}$, $Esp_{{max}}$) de la base; y por último, se solicita el archivo que contenga la información topográfica-batimétrica i.e., el número de prisma y su elevación correspondiente `topografia.txt`. Este programa se ejecuta una vez por capa
 
 Posteriormente, ejecuta `program2.exe`, el objetivo de este segundo programa es asegurar que los prismas que están aflorando, i.e., los que corresponden a la geología superficial observada en los mapas geológicos tengan las restricciones necesarias y el modelo refleje correctamente las condiciones observadas. Dado que se trabaja con múltiples capas, existen varios casos a considerar además del caso base (i.e., cuando aflora cualquier unidad por debajo de la capa a trabajar). El siguiente caso a considerar es cuando aflora la unidad que se está trabajando; para ello, se vuelve a ejecutar el programa, pero ahora utilizando como archivo de entrada el archivo que resultó de la primera iteración (donde se empleó el archivo generado por el primer programa). Posteriormente, por cada unidad que aflora por encima de la capa en cuestión, se repite el proceso utilizando el archivo de entrada generado en la ejecución anterior. Finalmente, el archivo resultante para cada capa se pega por debajo del archivo anterior y una vez todos juntos se pega por debajo del archivo `Model.txt`
 
@@ -205,38 +205,11 @@ min. depth    max. depth    sdepth    Min.-Thickness    Max.-
 
 Para más detalles sobre este procedimiento puede consultar https://tesiunamdocumentos.dgb.unam.mx/ptd2025/abr_jun/0870941/Index.html
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Resultados de la Tesis
-
-A continuación se muestran algunos de los resultados generados con estas herramientas, que fueron clave para la interpretación geológica final.
-
-**Mapa de Espesor de la Capa de Sedimentos**
-![Mapa de espesor de sedimentos](imagenes/resultado_mapa_espesor.png)
-*Este mapa revela las zonas de mayor acumulación de sedimentos, coincidiendo con las depresiones tectónicas principales de la cuenca.*
-
-**Sección Geológica A-A'**
-![Corte geológico A-A'](imagenes/resultado_corte_A-A.png)
-*Esta sección muestra claramente la estructura de graben de la cuenca, delimitada por la falla Apan-Tlaloc.*
-
 ## Mis Herramientas de Visualización
 
 El algoritmo `gmlayers` produce archivos de texto con las profundidades de las interfaces para cada prisma del modelo. Para interpretar estos resultados, desarrollé dos herramientas en Python:
 
-1.  **`visualizador_cortes.py`**: Este script toma el archivo de salida del modelo y genera secciones transversales (cortes geológicos) en cualquier dirección (N-S o E-W), permitiendo visualizar la estructura interna de la cuenca.
+1.  **`visualizador_cortes.py`**: Este script toma el archivo de salida del modelo y genera secciones transversales (cortes geológicos) en cualquier dirección (N-S o E-W), permitiendo visualizar la estructura interna de los modelos.
 2.  **`generador_mapas_espesor.py`**: Esta herramienta calcula y grafica los mapas de espesores para cada una de las capas geológicas definidas en el modelo, ayudando a identificar las zonas de mayor acumulación de materiales.
 
 
