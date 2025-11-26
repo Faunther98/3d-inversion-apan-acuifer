@@ -212,15 +212,8 @@ El algoritmo `gmlayers` produce archivos de texto con las profundidades de las i
 1.  **`slices-XZ-program.py`**: Este script toma el archivo de salida del modelo y genera secciones transversales (cortes geológicos) en cualquier dirección (N-S o E-W), permitiendo visualizar la estructura interna de los modelos.
 2.  **`slices-plotting-program.py`**: Esta herramienta grafica cada una de las capas del modelo resultante, permite asignar un color a cada capa, pero te puedes apoyar de herramientas de edicion de imagenes si quieres darle un toque más artistico.
 
-Ejemplo de 
+La siguiente imagen es un ejemplo de un corte realizado al modelo 3D del acuífero de Apan, utilizando estas herramientas hechas en python.
 
 <div align="center">
-  <img src="/images/swappy-20251126-154342.png" alt="ejemplo_cortes" width="500">
-</div>
+  <img src="/images/modelo_ejemplo.png" alt="ejemplo_cortes" width="1000">
 
-
-## Contacto
-
-[Tu Nombre] - [Tu Email] - [Link a tu LinkedIn]
-
-</div>
