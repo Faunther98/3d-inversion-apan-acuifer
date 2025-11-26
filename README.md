@@ -118,12 +118,20 @@ Un archivo de texto `gfield.txt` con columnas para las coordenadas UTM (Norte, E
 ----------------GFIELD.txt----------------
 Gravity data set of sintetic model (1000 measurements)
 North (km) East(km) Z(km) g(mgal) sg(mgal)
-
+```
 
 #### Datos Magnéticos: 
 
 Un archivo de texto `mfield.txt` similar al de gravedad, pero que además incluya al inicio los valores de inclinación y declinación del campo geomagnético, para la fecha y ubicación de los datos.
 
+```text
+----------------MFIELD.txt----------------
+Magnetic data set of Test model  (5653 measurements)
+  Geomagnetic Inclination and Declination (DEG)
+         |#valor de dec| |#valor de inc|
+North (km) East(km) Z(km) B(nT) sB(nT)
+
+```
 
 #### Modelo Geológico Conceptual: 
 
@@ -160,9 +168,40 @@ El siguiente paso consiste en asignar a cada prisma una unidad geológica aflora
 
 #### Generar los archivos de restricciones de capas
 
-ejecuta `program1.exe` este solicitará una serie de parámetros geométricos de la base de la capa; el número de la capa; el número de prismas, los valores $x_{\text{min}}$, $x_0$ y $x_{\text{max}}$ de la base de la capa i.e., el caso donde aflora cualquier unidad por debajo de la capa que se está trabajando), los cuales pueden ser constantes o variables. Si el valor se toma de la topografía, se digita 10,000;  la desviación estándar ($sx0$); los espesores mínimo y máximo ($Esp_{{min}}$, $Esp_{{max}}$) de la base; y por último, se solicita el archivo que contenga la información topográfica-batimétrica \emph{i.e.}, el número de prisma y su elevación correspondiente `topografia.txt`. Este programa se ejecuta una vez por capa
+ejecuta `program1.exe` este solicitará una serie de parámetros geométricos de la base de la capa; el número de la capa; el número de prismas, los valores $x_{\text{min}}$, $x_0$ y $x_{\text{max}}$ de la base de la capa i.e., el caso donde aflora cualquier unidad por debajo de la capa que se está trabajando), los cuales pueden ser constantes o variables. Si el valor se toma de la topografía, se digita 10,000;  la desviación estándar ($sx0$); los espesores mínimo y máximo ($Esp_{{min}}$, $Esp_{{max}}$) de la base; y por último, se solicita el archivo que contenga la información topográfica-batimétrica i.e., el número de prisma y su elevación correspondiente `topografia.txt`. Este programa se ejecuta una vez por capa
 
 Posteriormente, ejecuta `program2.exe`, el objetivo de este segundo programa es asegurar que los prismas que están aflorando, i.e., los que corresponden a la geología superficial observada en los mapas geológicos tengan las restricciones necesarias y el modelo refleje correctamente las condiciones observadas. Dado que se trabaja con múltiples capas, existen varios casos a considerar además del caso base (i.e., cuando aflora cualquier unidad por debajo de la capa a trabajar). El siguiente caso a considerar es cuando aflora la unidad que se está trabajando; para ello, se vuelve a ejecutar el programa, pero ahora utilizando como archivo de entrada el archivo que resultó de la primera iteración (donde se empleó el archivo generado por el primer programa). Posteriormente, por cada unidad que aflora por encima de la capa en cuestión, se repite el proceso utilizando el archivo de entrada generado en la ejecución anterior. Finalmente, el archivo resultante para cada capa se pega por debajo del archivo anterior y una vez todos juntos se pega por debajo del archivo `Model.txt`
+
+```text
+----------MODEL.txt----------
+Sintetic model made to test the main program layer
+Number of gravity and magnetic registers
+  #,#
+Number of surfaces to consider
+  #
+----------------------------------------------------------
+Parameters by layer
+|Lay| Fix=0 | a | b | c | |M| | inc | dec | sder |
+Var=1 (gr/cm3) (gr/cm3/km) (gr/cm3/km2) (Amp/m)     (Deg)
+      (Deg) (km/km or km/km2)
+----------------------------------------------------------
+Kind of regularization 0=>None, 1=>1st der.,2=>2nd der.
+  #
+Regularization model 0=> flatest model, 1=>Initial model
+  #
+Limit coordinates S-N and W-E (km) for a regular grid of
+prisms
+   #   #   #   #
+Number of prisms (South-North and West-East directions)
+  # , #
+Size of border prisms    (South-North and West-East)
+  #,#
+----------------------------------------------------------
+Depth to each prism (West to East and South to North)   (
+  km) from upper to lower surfaces
+min. depth    max. depth    sdepth    Min.-Thickness    Max.-
+  Thickness (layer behind surface)
+```
 
 Para más detalles sobre este procedimiento puede consultar https://tesiunamdocumentos.dgb.unam.mx/ptd2025/abr_jun/0870941/Index.html
 
